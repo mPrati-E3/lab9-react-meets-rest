@@ -1,13 +1,17 @@
 import React from 'react';
 import ListGroup from 'react-bootstrap/ListGroup';
 
+// Component to administrate filters
 class Filters extends React.Component {
+
+    // Create a new project
     createProject = (project) => {
         return (
             <ListGroup.Item action key = {`#${project}`} active = {this.props.activeFilter === project ? true : false} onClick = {() => {this.props.filterTasks('filter-project', project);}}>{project}</ListGroup.Item>
         );
     }
 
+    // Mandatory render function to draw the filter in the ListGroup
     render() {
         return (
             <>

@@ -15,11 +15,12 @@ const createTask = function (row) {
     return new Task(row.id, row.description, importantTask, privateTask, row.deadline, row.project, completedTask);
 }
 
-
+// Check if the task date is today
 const isToday = function(date) {
     return moment(date).isSame(moment(), 'day');
 }
 
+// Check if the task date is next week
 const isNextWeek = function(date) {
     const nextWeek = moment().add(1, 'weeks');
     const tomorrow = moment().add(1, 'days');
@@ -28,6 +29,7 @@ const isNextWeek = function(date) {
 
 /**
  * Get tasks and optionally filter them
+ * This is async so I have to use a Promise 
  */
 exports.getTasks = function(filter) {
     return new Promise((resolve, reject) => {
@@ -37,6 +39,8 @@ exports.getTasks = function(filter) {
                 reject(err);
             } else {
                 let tasks = rows.map((row) => createTask(row));
+
+                // If I have a passed filter, I'll switch it to know which tasks I have to draw
                 if(filter){
                     switch(filter){
                         case "important":
@@ -84,7 +88,8 @@ exports.getTasks = function(filter) {
 }
 
 /**
- * Get a task with given 
+ * Get a task with given id
+ * This is async so I have to use a Promise 
  */
 exports.getTask = function(id) {
     return new Promise((resolve, reject) => {
@@ -104,6 +109,7 @@ exports.getTask = function(id) {
 
 /**
  * Delete a task with a given id
+ * This is async so I have to use a Promise 
  */
 exports.deleteTask = function(id) {
     return new Promise((resolve, reject) => {
@@ -120,6 +126,7 @@ exports.deleteTask = function(id) {
 /**
  * Insert a task in the database and returns the id of the inserted task. 
  * To get the id, this.lastID is used. To use the "this", db.run uses "function (err)" instead of an arrow function.
+ * This is async so I have to use a Promise 
  */
 exports.createTask = function(task) {
     if(task.deadline){
@@ -143,6 +150,7 @@ exports.createTask = function(task) {
 
 /**
  * Update an existing task with a given id. newTask contains the new values of the task (e.g., to mark it as "completed")
+ * This is async so I have to use a Promise 
  */
 exports.updateTask = function(id, newTask) {
     if(newTask.deadline)
